@@ -1,0 +1,49 @@
+version: "3"
+
+services:
+  gormapp:
+    build: .
+    container_name: gormapp
+    volumes:
+      - .:/go/src/
+    depends_on:
+      - mysql
+      - postgres
+    networks:
+    - mynetwork
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: SuperFacil123
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: juninhodev
+      MYSQL_PASSWORD: SuperFacil123
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - mynetwork
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: juninhodev
+      POSTGRES_PASSWORD: SuperFacil123
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - mynetwork  
+
+networks:
+  mynetwork:
+
+volumes:
+  mysql-data:
+  postgres-data:
